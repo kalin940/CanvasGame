@@ -17,6 +17,8 @@ function init() {
     let score=-1;
     let lives=3;
     let running=true;
+    let jumping=false;
+    let jumpHeight=50;
     window.addEventListener('keydown',kebdHandler);
     
     function kebdHandler(event) {
@@ -34,15 +36,25 @@ function init() {
                 }
                 break;
             case "ArrowUp":
-                //hero.y-=moveSpeed;
-                //jump();
+                    jump();
+                break;
+            case "ArrowDown":
+                jump();
                 break;
         }
        // update();
     }
-    //function jump(){
-    //    hero.y-=2*moveSpeed;
-    //}
+
+    function jump() {
+        if (!jumping) {
+            jumping = true;
+            setTimeout(land, 400);
+        }
+    }
+    function land() {
+        jumping = false;
+    }
+
     function  update() {
         moveBeer();
         let X=(hero.x+50)-(beer.x+40);
@@ -62,10 +74,17 @@ function init() {
         }
     }
     function draw() {
+        let y=hero.y;
         ctx.clearRect(0,0,800,600);
+        if(jumping){
+            y-=jumpHeight;
+            ctx.drawImage(heroImg,hero.x,y,100,100);
+        }else{
+            ctx.drawImage(heroImg,hero.x,hero.y,100,100);
+        }
         ctx.drawImage(backgroundImg,0,0,800,600);
         ctx.drawImage(beerImg,beer.x,beer.y,80,80);
-        ctx.drawImage(heroImg,hero.x,hero.y,100,100);
+
 
         ctx.fillText(`Beers:${score}`,10,30);
         ctx.fillText(`Lives:${lives}`,10,50);
