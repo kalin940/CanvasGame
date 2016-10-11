@@ -6,18 +6,21 @@ function init() {
     //Resources
     let heroImg=document.getElementById('theHero');
     let beerImg=document.getElementById('theBeer');
+    let boosterImg=document.getElementById('theBooster');
     let endImg=document.getElementById('theEnd');
-    let backgroundImg = document.getElementById('background');
+    let backgroundImg = document.getElementById('theBackground');
     let ctx=document.getElementById('canvas').getContext('2d');
     ctx.fillStyle = "white";
     ctx.font='24px arial white';
     let hero={x:400,y:500};
     let beer={x:0,y:0};
+    let booster = {x:100,y:100};
     let dirY=true;
     let score=-1;
     let lives=3;
     let running=true;
     let jumping=false;
+    let boosterBool = false;
     let jumpHeight=60;
     window.addEventListener('keydown',kebdHandler);
     
@@ -47,19 +50,20 @@ function init() {
             setTimeout(land, 400);
         }
     }
+    function land() {
+        jumping = false;
+    }
     function  update() {
         moveBeer();
         let X=(hero.x+50)-(beer.x+40);
         let Y=(hero.y+50)-(beer.y+40);
-
+//to do
         let distance=Math.sqrt(X*X + Y*Y);
         if(distance<97){
             reset();
         }
     }
-    function land() {
-        jumping = false;
-    }
+
     function reset() {
         beer.x=Math.round(Math.random()*720);
         beer.y=0;
@@ -67,11 +71,21 @@ function init() {
         if(score%5==0){
             beerSpeed++;
         }
+        if(score%3 ==1){
+            boosterBool = true;
+        }
+        else{
+            boosterBool = false;
+        }
     }
     function draw() {
         let y=hero.y;
         ctx.clearRect(0,0,800,600);
+
         ctx.drawImage(backgroundImg,0,0,800,600);
+        if(boosterBool){
+            ctx.drawImage(boosterImg,0,0,100,100)
+        }
         ctx.drawImage(beerImg,beer.x,beer.y,80,80);
         if(jumping){
             y-=jumpHeight;
