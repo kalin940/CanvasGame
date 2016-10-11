@@ -7,8 +7,10 @@ function init() {
     let heroImg=document.getElementById('theHero');
     let beerImg=document.getElementById('theBeer');
     let endImg=document.getElementById('theEnd');
+    let backgroundImg = document.getElementById('background');
     let ctx=document.getElementById('canvas').getContext('2d');
-    ctx.font='24px arial';
+    ctx.fillStyle = "white";
+    ctx.font='24px arial white';
     let hero={x:400,y:500};
     let beer={x:0,y:0};
     let dirY=true;
@@ -20,23 +22,27 @@ function init() {
     function kebdHandler(event) {
         switch(event.code){
             case "ArrowLeft":
-                heroImg=document.getElementById('theHeroLeft');
-                hero.x-=moveSpeed;
+                if(hero.x>0){
+                    heroImg=document.getElementById('theHeroLeft');
+                    hero.x-=moveSpeed;
+                }
                 break;
             case "ArrowRight":
-                heroImg=document.getElementById('theHero');
-                hero.x+=moveSpeed;
+                if(hero.x<690) {
+                    heroImg = document.getElementById('theHero');
+                    hero.x += moveSpeed;
+                }
                 break;
             case "ArrowUp":
-                hero.y-=moveSpeed;
-                break;
-            case "ArrowDown":
-                hero.y+=moveSpeed;
+                //hero.y-=moveSpeed;
+                //jump();
                 break;
         }
        // update();
     }
-
+    //function jump(){
+    //    hero.y-=2*moveSpeed;
+    //}
     function  update() {
         moveBeer();
         let X=(hero.x+50)-(beer.x+40);
@@ -57,6 +63,7 @@ function init() {
     }
     function draw() {
         ctx.clearRect(0,0,800,600);
+        ctx.drawImage(backgroundImg,0,0,800,600);
         ctx.drawImage(beerImg,beer.x,beer.y,80,80);
         ctx.drawImage(heroImg,hero.x,hero.y,100,100);
 
