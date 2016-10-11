@@ -38,9 +38,7 @@ function init() {
             case "ArrowUp":
                     jump();
                 break;
-            case "ArrowDown":
-                jump();
-                break;
+         
         }
        // update();
     }
